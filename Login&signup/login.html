@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <form action="">
+      <h1>Login</h1>
+      <div class="input-box">
+        <input type="text" placeholder="Username" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" required>
+        <i class='bx bxs-lock-alt' ></i>
+      </div>
+      <div class="remember-forgot">
+        <label><input type="checkbox">Remember Me</label>
+        <a href="#">Forgot Password</a>
+      </div>
+      <button type="submit" class="btn">Login</button>
+      <div class="register-link">
+        <p>Don't have an account? <a href="register.html">Register</a></p> <!-- Link to register page -->
+      </div>
+    </form>
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent default form submission
+  
+        const form = event.target;
+        const formData = new FormData(form);
+  
+        const userData = {};
+        formData.forEach((value, key) => {
+          userData[key] = value;
+        });
+  
+        try {
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userData)
+          });
+  
+          if (response.ok) {
+            alert("Login successful!");
+            form.reset(); // Clear form fields after successful login
+          } else {
+            throw new Error("Invalid username or password");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to login. Please check your credentials and try again.");
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>

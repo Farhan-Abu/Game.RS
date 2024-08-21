@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <form action="">
+      <h1>Register</h1>
+      <div class="input-box">
+        <input type="text" placeholder="Full Name" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Email" required>
+        <i class='bx bxs-envelope'></i>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Username" required>
+        <i class='bx bxs-user'></i>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Password" required>
+        <i class='bx bxs-lock-alt' ></i>
+      </div>
+      <button type="submit" class="btn">Register</button>
+      <div class="register-link">
+        <p>Already have an account? <a href="login.html">Login</a></p> <!-- Link to login page -->
+      </div>
+    </form>
+    <script>
+      document.getElementById("registrationForm").addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent default form submission
+  
+        const form = event.target;
+        const formData = new FormData(form);
+  
+        const userData = {};
+        formData.forEach((value, key) => {
+          userData[key] = value;
+        });
+  
+        try {
+          const response = await fetch("/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userData)
+          });
+  
+          if (!response.ok) {
+            throw new Error("Failed to register user");
+          }
+  
+          alert("User registered successfully!");
+          form.reset(); // Clear form fields after successful registration
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Failed to register user. Please try again.");
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>
